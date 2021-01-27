@@ -24,3 +24,6 @@ safeSucc a | a == Nothing = a
            | otherwise = fmap (+1) a
 
 myLookup :: Eq a => a -> [(a, b)] -> Maybe b
+myLookup _ [] = Nothing
+myLookup a ((x, y):t) | a == x = Just y
+                     | otherwise = myLookup a t
