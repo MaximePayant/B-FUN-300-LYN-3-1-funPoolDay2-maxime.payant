@@ -74,3 +74,6 @@ concatString a b = a ++ b
 concatLines :: Int -> IO String
 concatLines 0 = return ""
 concatLines ctr = concatString <$> getLine <*> concatLines (ctr - 1)
+
+getInt :: IO (Maybe Int)
+getInt = readInt <$> getLine
