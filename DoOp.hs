@@ -32,3 +32,14 @@ maybeDo :: (a -> b -> c) -> Maybe a -> Maybe b -> Maybe c
 maybeDo _ Nothing _ = Nothing
 maybeDo _ _ Nothing = Nothing
 maybeDo func a b = func <$> a <*> b
+
+isDigit :: [Char] -> Bool -> Bool
+isDigit [] _ = True
+isDigit (x:xs) f | f && myElem x ['-', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'] = isDigit xs False
+                 | not f && myElem x ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'] = isDigit xs False
+                 | otherwise = False
+
+readInt :: [Char] -> Maybe Int
+readInt [] = Nothing
+readInt s | isDigit s True = Just (read s)
+          | otherwise = Nothing
