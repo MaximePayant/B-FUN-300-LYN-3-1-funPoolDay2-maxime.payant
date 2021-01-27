@@ -27,3 +27,8 @@ myLookup :: Eq a => a -> [(a, b)] -> Maybe b
 myLookup _ [] = Nothing
 myLookup a ((x, y):t) | a == x = Just y
                      | otherwise = myLookup a t
+
+maybeDo :: (a -> b -> c) -> Maybe a -> Maybe b -> Maybe c
+maybeDo _ Nothing _ = Nothing
+maybeDo _ _ Nothing = Nothing
+maybeDo func a b = func <$> a <*> b
