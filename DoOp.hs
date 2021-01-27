@@ -81,10 +81,6 @@ concatLines ctr = concatString <$> getLine <*> concatLines (ctr - 1)
 getInt :: IO (Maybe Int)
 getInt = readInt <$> getLine
 
-putStringList :: [String] -> IO ()
-putStringList [] = putStrLn ""
-putStringList (x:xs) = putStrLn x >> putStringList xs
-
 zero :: Maybe Int
 zero = Just 0
 
@@ -112,7 +108,21 @@ doop s = let a = readInt (head s)
                 "doop" -> printMaybe ((*) <$> a <*> b)
                 "/" -> makeDiv a b
                 "%" -> makeMod a b
-                _ -> print op
+                _ -> exitWith (ExitFailure 84)
+
+--doop :: [String] -> IO ()
+--doop s = let a = readInt (head s)
+--             b = readInt (last s)
+--             op = s!!1
+--             os = getProgName
+--          in case op of
+--                "+" -> printMaybe ((+) <$> a <*> b)
+--                "-" -> printMaybe ((-) <$> a <*> b)
+--                "/" -> makeDiv a b
+--                "%" -> makeMod a b
+--                z -> if (==) <$> z <*> os
+--                        then printMaybe ((*) <$> a <*> b)
+--                        else exitWith (ExitFailure 84)
 
 main :: IO ()
 main = getArgs >>= doop
