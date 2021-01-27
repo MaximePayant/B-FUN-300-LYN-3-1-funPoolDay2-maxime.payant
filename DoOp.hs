@@ -5,6 +5,9 @@
 --DoOp.hs
 -}
 
+import System.Environment
+import System.Exit
+
 myElem :: Eq a => a -> [a] -> Bool
 myElem _ [] = False
 myElem a (x:xs) | a == x = True
@@ -77,3 +80,39 @@ concatLines ctr = concatString <$> getLine <*> concatLines (ctr - 1)
 
 getInt :: IO (Maybe Int)
 getInt = readInt <$> getLine
+
+putStringList :: [String] -> IO ()
+putStringList [] = putStrLn ""
+putStringList (x:xs) = putStrLn x >> putStringList xs
+
+zero :: Maybe Int
+zero = Just 0
+
+bool :: Maybe Bool -> Bool
+bool (Just a) = a
+
+printMaybe :: Maybe Int -> IO ()
+printMaybe (Just a) = print a
+
+makeDiv :: Maybe Int -> Maybe Int -> IO ()
+makeDiv a b | bool ((==) <$> b <*> zero) = exitWith (ExitFailure 84)
+            | otherwise = printMaybe (div <$> a <*> b)
+
+makeMod :: Maybe Int -> Maybe Int -> IO ()
+makeMod a b | bool ((==) <$> b <*> zero) = exitWith (ExitFailure 84)
+            | otherwise = printMaybe (mod <$> a <*> b)
+
+doop :: [String] -> IO ()
+doop s = let a = readInt (head s)
+             b = readInt (last s)
+             op = s!!1
+          in case op of
+                "+" -> printMaybe ((+) <$> a <*> b)
+                "-" -> printMaybe ((-) <$> a <*> b)
+                "doop" -> printMaybe ((*) <$> a <*> b)
+                "/" -> makeDiv a b
+                "%" -> makeMod a b
+                _ -> print op
+
+main :: IO ()
+main = getArgs >>= doop
