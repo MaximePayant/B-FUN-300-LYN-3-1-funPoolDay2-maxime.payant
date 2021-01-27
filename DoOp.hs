@@ -20,8 +20,8 @@ safeNth (x:_) 0 = Just x
 safeNth (_:xs) a = safeNth xs (a - 1)
 
 safeSucc :: Maybe Int -> Maybe Int
-safeSucc a | a == Nothing = a
-           | otherwise = fmap (+1) a
+safeSucc Nothing = Nothing
+safeSucc a = (+1) <$> a
 
 myLookup :: Eq a => a -> [(a, b)] -> Maybe b
 myLookup _ [] = Nothing
@@ -35,8 +35,10 @@ maybeDo func a b = func <$> a <*> b
 
 isDigit :: [Char] -> Bool -> Bool
 isDigit [] _ = True
-isDigit (x:xs) f | f && myElem x ['-', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'] = isDigit xs False
-                 | not f && myElem x ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'] = isDigit xs False
+isDigit (x:xs) f | f && myElem x ['-', '0', '1', '2', '3', '4'
+                                 , '5', '6', '7', '8', '9'] = isDigit xs False
+                 | not f && myElem x ['0', '1', '2', '3', '4'
+                                     ,'5', '6', '7', '8', '9'] = isDigit xs False
                  | otherwise = False
 
 readInt :: [Char] -> Maybe Int
