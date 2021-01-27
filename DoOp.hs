@@ -43,3 +43,6 @@ readInt :: [Char] -> Maybe Int
 readInt [] = Nothing
 readInt s | isDigit s True = Just (read s)
           | otherwise = Nothing
+
+getLineLength :: IO Int
+getLineLength = length <$> getLine
