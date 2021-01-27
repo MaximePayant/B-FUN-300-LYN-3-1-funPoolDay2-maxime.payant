@@ -26,7 +26,7 @@ safeSucc a | a == Nothing = a
 myLookup :: Eq a => a -> [(a, b)] -> Maybe b
 myLookup _ [] = Nothing
 myLookup a ((x, y):t) | a == x = Just y
-                     | otherwise = myLookup a t
+                      | otherwise = myLookup a t
 
 maybeDo :: (a -> b -> c) -> Maybe a -> Maybe b -> Maybe c
 maybeDo _ Nothing _ = Nothing
@@ -46,3 +46,6 @@ readInt s | isDigit s True = Just (read s)
 
 getLineLength :: IO Int
 getLineLength = length <$> getLine
+
+printAndGetLength :: String -> IO Int
+printAndGetLength s = putStrLn s >> return (length s)
