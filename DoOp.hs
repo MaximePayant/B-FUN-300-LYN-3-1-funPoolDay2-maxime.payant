@@ -67,3 +67,10 @@ printBoxBis len ctr | ctr == len = printLine '+' '-' len len ++ "\n" ++ printBox
 printBox :: Int -> IO ()
 printBox len | len < 1 = putStrLn "\0"
              | otherwise = putStrLn (printBoxBis len len)
+
+concatString :: String -> String -> String
+concatString a b = a ++ b
+
+concatLines :: Int -> IO String
+concatLines 0 = return ""
+concatLines ctr = concatString <$> getLine <*> concatLines (ctr - 1)
