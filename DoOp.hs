@@ -102,31 +102,24 @@ makeMod :: Maybe Int -> Maybe Int -> IO ()
 makeMod a b | bool ((==) <$> b <*> zero) = exitWith (ExitFailure 84)
             | otherwise = printMaybe (mod <$> a <*> b)
 
+checkNumber :: Maybe Int -> Maybe Int -> IO ()
+checkNumber Nothing _ = exitWith (ExitFailure 84)
+checkNumber _ Nothing = exitWith (ExitFailure 84)
+checkNumber _ _ = return ()
+
 doop :: [String] -> IO ()
+doop l | length l /= 3 = exitWith (ExitFailure 84)
 doop s = let a = readInt (head s)
              b = readInt (last s)
              op = s!!1
-          in case op of
+          in checkNumber a b >>
+             case op of
                 "+" -> printMaybe ((+) <$> a <*> b)
                 "-" -> printMaybe ((-) <$> a <*> b)
                 "doop" -> printMaybe ((*) <$> a <*> b)
                 "/" -> makeDiv a b
                 "%" -> makeMod a b
                 _ -> exitWith (ExitFailure 84)
-
---doop :: [String] -> IO ()
---doop s = let a = readInt (head s)
---             b = readInt (last s)
---             op = s!!1
---             os = getProgName
---          in case op of
---                "+" -> printMaybe ((+) <$> a <*> b)
---                "-" -> printMaybe ((-) <$> a <*> b)
---                "/" -> makeDiv a b
---                "%" -> makeMod a b
---                z -> if (==) <$> z <*> os
---                        then printMaybe ((*) <$> a <*> b)
---                        else exitWith (ExitFailure 84)
 
 main :: IO ()
 main = getArgs >>= doop
