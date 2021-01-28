@@ -58,14 +58,18 @@ printAndGetLength s = putStrLn s >> return (length s)
 printLine :: Char -> Char -> Int -> Int -> String
 printLine bae _ 1 _ = [bae] ++ [bae]
 printLine bae mid _ 1 = [mid] ++ [bae]
-printLine bae mid len ctr | ctr == len = [bae] ++ [mid] ++ printLine bae mid len (ctr - 1)
-                          | otherwise = [mid] ++ [mid] ++ printLine bae mid len (ctr - 1)
+printLine bae mid len ctr | ctr == len = [bae] ++ [mid]
+                              ++ printLine bae mid len (ctr - 1)
+                          | otherwise = [mid] ++ [mid]
+                              ++ printLine bae mid len (ctr - 1)
 
 printBoxBis :: Int -> Int -> String
 printBoxBis 1 _ = printLine '+' '-' 1 1
 printBoxBis len 1 = printLine '+' '-' len len
-printBoxBis len ctr | ctr == len = printLine '+' '-' len len ++ "\n" ++ printBoxBis len (ctr - 1)
-                    | otherwise = printLine '|' ' ' len len ++ "\n" ++ printBoxBis len (ctr - 1)
+printBoxBis len ctr | ctr == len = printLine '+' '-' len len
+                        ++ "\n" ++ printBoxBis len (ctr - 1)
+                    | otherwise = printLine '|' ' ' len len
+                        ++ "\n" ++ printBoxBis len (ctr - 1)
 
 printBox :: Int -> IO ()
 printBox len | len < 1 = putStrLn "\0"
