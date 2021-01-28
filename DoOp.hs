@@ -116,7 +116,7 @@ doop s = let a = readInt (head s)
              case op of
                 "+" -> printMaybe ((+) <$> a <*> b)
                 "-" -> printMaybe ((-) <$> a <*> b)
-                "doop" -> printMaybe ((*) <$> a <*> b)
+                "*" -> printMaybe ((*) <$> a <*> b)
                 "/" -> makeDiv a b
                 "%" -> makeMod a b
                 _ -> exitWith (ExitFailure 84)
